@@ -2,7 +2,7 @@
 
 Bonjour à tous,
 
-Pour ce workshop vous aurez besoin d'un Smartphone (Apple ou Android, au choix) et installer les applications suivantes:
+Pour ce workshop vous aurez besoin d'un Smartphone (Apple ou Android, au choix) branché a votre pc et installer les applications suivantes:
 
 - Nativescript Playground qui vous permettra de scanner le QR code pour linker votre application en développement a votre Smartphone
 - Nativescript Preview qui vous permettra d'afficher le rendu de l'application développée
@@ -10,7 +10,7 @@ Pour ce workshop vous aurez besoin d'un Smartphone (Apple ou Android, au choix) 
 Vous pouvez voir le rendu de votre application de 2 manières:
 
 - En effectuant un tns preview, vous scannez le QR code avec l'application Preview et votre code sera affiché sur votre smartphone
-- En effectuant un tns run (android ou ios) --bundle, le CLI scannera tout les devices connectés a votre machine et simulera l'application dessus. Ceci nécéssite un smartphone en mode developpeur (Cliquer plusieurs fois sur la version de votre smartphone dans les paramètres) ainsi que le Débuggage USB (options développeurs) activé.
+- En effectuant un tns run (android ou ios) --bundle, le CLI scannera tout les devices connectés a votre machine et simulera l'application dessus. Ceci nécéssite un smartphone en mode developpeur (Cliquer plusieurs fois sur la version de votre smartphone dans les paramètres) branché a votre pc ainsi que le Débuggage USB (options développeurs) activé.
 
 L'**installation** de tout l'environnement travail :
 
@@ -47,6 +47,8 @@ L'**installation** de tout l'environnement travail :
 Un autre point assez important, Nativescript peut s'utiliser avec plusieurs _Frameworks_ ou _Supersets_, les plus populaires étant React et Typescript. Pour ce workshop nous utiliserons **VueJS**.
 
 [Documentation Nativescript VueJS](https://nativescript-vue.org/en/docs/introduction/)
+
+Il est possible de se passer de son Smartphone en utilisant des emulateurs, ceux-ci étant long à installer. Je ne m'attarderai pas sur l'installation et la configuration de ceux-ci dans mon workshop, mais dans le cas ou vous voudriez continuer à travailler avec un émulateur par la suite, n'hésitez pas a me demander.
 
 ## L'application
 
@@ -156,9 +158,9 @@ Premièrement nous allons créer un fichier nommé LoginPage.vue dans /app/compo
       return {
         isLoggingIn: true,
         user: {
-          email: 'foo@foo.com',
-          password: 'foo',
-          confirmPassword: 'foo',
+          email: "foo@foo.com",
+          password: "foo",
+          confirmPassword: "foo",
         },
       };
     },
@@ -169,7 +171,7 @@ Premièrement nous allons créer un fichier nommé LoginPage.vue dans /app/compo
 
       submit() {
         if (!this.user.email || !this.user.password) {
-          this.alert('Please provide both an email adress and password.');
+          this.alert("Please provide both an email adress and password.");
           return;
         }
         if (this.isLoggingIn) {
@@ -186,47 +188,47 @@ Premièrement nous allons créer un fichier nommé LoginPage.vue dans /app/compo
             this.$navigateTo(HomePage);
           })
           .catch(() => {
-            this.alert('Unfortunately we could not find your account.');
+            this.alert("Unfortunately we could not find your account.");
           });
       },
 
       register() {
         if (this.user.password != this.user.confirmPassword) {
-          this.alert('Your password do not match.');
+          this.alert("Your password do not match.");
           return;
         }
         userService
           .register(this.user)
           .then(() => {
-            this.alert('Your account was successfully created.');
+            this.alert("Your account was successfully created.");
             this.isLoggingIn = true;
           })
           .catch(() => {
-            this.alert('Unfortunately we were unable to create your account.');
+            this.alert("Unfortunately we were unable to create your account.");
           });
       },
 
       forgotPassword() {
         prompt({
-          title: 'Forgot Password',
+          title: "Forgot Password",
           message:
-            'Enter the email address you used to register for LOGIN APP to reset your password.',
-          inputType: 'email',
-          defaultText: '',
-          okButtonText: 'Ok',
-          cancelButtonText: 'Cancel',
+            "Enter the email address you used to register for LOGIN APP to reset your password.",
+          inputType: "email",
+          defaultText: "",
+          okButtonText: "Ok",
+          cancelButtonText: "Cancel",
         }).then((data) => {
           if (data.result) {
             userService
               .resetPassword(data.text.trim())
               .then(() => {
                 this.alert(
-                  'Your password was successfully reset. Please check your email for instructions on choosing a new password.'
+                  "Your password was successfully reset. Please check your email for instructions on choosing a new password."
                 );
               })
               .catch(() => {
                 this.alert(
-                  'Unfortunately, an error occurred resetting your password.'
+                  "Unfortunately, an error occurred resetting your password."
                 );
               });
           }
@@ -245,8 +247,8 @@ Premièrement nous allons créer un fichier nommé LoginPage.vue dans /app/compo
 
       alert(message) {
         return alert({
-          title: 'LOGIN APP',
-          okButtonText: 'Ok',
+          title: "LOGIN APP",
+          okButtonText: "Ok",
           message: message,
         });
       },
@@ -323,18 +325,18 @@ Premièrement nous allons créer un fichier nommé LoginPage.vue dans /app/compo
 Ensuite modifiez le fichier app/main.js pour qu'il ressemble à ceci:
 
 ```javascript
-import Vue from 'nativescript-vue';
-import VueDevtools from 'nativescript-vue-devtools';
-import LoginPage from './components/LoginPage';
+import Vue from "nativescript-vue";
+import VueDevtools from "nativescript-vue-devtools";
+import LoginPage from "./components/LoginPage";
 
-if (TNS_ENV !== 'production') {
+if (TNS_ENV !== "production") {
   Vue.use(VueDevtools);
 }
 // Prints Vue logs when --env.production is *NOT* set while building
-Vue.config.silent = TNS_ENV === 'production';
+Vue.config.silent = TNS_ENV === "production";
 
 new Vue({
-  render: (h) => h('frame', [h(LoginPage)]),
+  render: (h) => h("frame", [h(LoginPage)]),
 }).$start();
 ```
 
